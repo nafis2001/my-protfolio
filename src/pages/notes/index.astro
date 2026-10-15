@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { publishedNotes } from '../../lib/notes';
+const notes = await publishedNotes();
+---
+
+<Layout
+  title={notes.length ? 'Notes — observations on visual design' : 'Notes — writing in progress'}
+  noindex={!notes.length}
+>
+  <section class="page-intro wrap">
+    <span class="eyebrow mono">THE NOTEBOOK</span>
+    <h1>
+      Thinking
+      <br />
+      <em>in the margins.</em>
+    </h1>
+    <p>
+      {notes.length
+        ? 'Original observations on visual communication, creative decisions, and the process behind the work.'
+        : 'No articles are published yet. This space is reserved for original observations and documented design practice.'}
+    </p>
+  </section>
+  <section class="wrap section compact">
+    {notes.length ? (
+      <div class="note-list">
+        {notes.map((n) => (
+          <article>
+            <time class="mono" datetime={n.data.publishedAt.toISOString()}>
+              {n.data.publishedAt.toLocaleDateString('en-GB', {
+                timeZone: 'Asia/Dhaka',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+            <h2>
+              <a href={`/notes/${n.data.slug}`}>{n.data.title} ↗</a>
+            </h2>
+            <p>{n.data.description}</p>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <a class="button" href="/lab">
+        Explore The Blue Room ↗
+      </a>
+    )}
+  </section>
+</Layout>

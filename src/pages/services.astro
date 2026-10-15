@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+const services = [
+  [
+    '01',
+    'Brand identity & visual systems',
+    'A clear visual language for a brand: identity, typography, colour, and practical applications.',
+    'Identity / Art direction / Visual systems',
+  ],
+  [
+    '02',
+    'Advertising & campaigns',
+    'Distinctive visual communication for social feeds, launches, and digital campaigns.',
+    'Social media / Key visuals / Creative compositing',
+  ],
+  [
+    '03',
+    'Packaging & print',
+    'Considered hierarchies and expressive compositions for physical formats.',
+    'Packaging / FMCG / Editorial / Print layouts',
+  ],
+  [
+    '04',
+    'Motion & moving images',
+    'Visual ideas extended into time, rhythm, and movement.',
+    'Motion graphics / Video editing / Digital content',
+  ],
+];
+---
+
+<Layout title="Graphic design services — identity, campaigns, packaging and motion">
+  <section class="page-intro wrap">
+    <span class="eyebrow mono">WAYS WE CAN WORK TOGETHER</span>
+    <h1>
+      A bold idea.
+      <br />
+      <em>The right form.</em>
+    </h1>
+    <p>
+      From a single visual to a connected design system. Let’s define what your project needs, then
+      give it a distinct point of view.
+    </p>
+  </section>
+  <section class="wrap service-list">
+    {services.map(([n, t, d, tags]) => (
+      <article>
+        <span class="mono">{n}</span>
+        <div>
+          <h2>{t}</h2>
+          <p>{d}</p>
+          <span class="mono">{tags}</span>
+        </div>
+        <a href={`/contact?service=${encodeURIComponent(t)}`} aria-label={`Discuss ${t}`}>
+          ↗
+        </a>
+      </article>
+    ))}
+  </section>
+  <section class="section wrap split-copy">
+    <h2>
+      Start with
+      <br />
+      <em>a conversation.</em>
+    </h2>
+    <div>
+      <p>
+        Share what you’re making, who it’s for, the deliverables you have in mind, and your timing.
+        Scope, availability, and fees are agreed directly before work begins.
+      </p>
+      <a class="button" href="/contact">
+        Tell me about your project ↗
+      </a>
+    </div>
+  </section>
+</Layout>

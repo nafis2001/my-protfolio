@@ -1,0 +1,53 @@
+{
+  "name": "my-protfolio",
+  "version": "1.0.0",
+  "description": "Nafis — The Attention Studio. An independent designer portfolio and SVG typography playground.",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "lint": "eslint src/scripts src/lib src/content.config.ts src/pages/robots.txt.ts tests playwright.config.ts",
+    "test": "playwright test",
+    "validate": "node scripts/validate.mjs",
+    "test:fixtures": "node scripts/test-fixtures.mjs",
+    "format": "prettier --write .",
+    "launch:check": "node scripts/launch-check.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nafis2001/my-protfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/nafis2001/my-protfolio/issues"
+  },
+  "homepage": "https://github.com/nafis2001/my-protfolio#readme",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "astro": "^7.4.0"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "eslint": "^10.12.0",
+    "lighthouse": "^13.5.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2"
+  }
+}

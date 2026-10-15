@@ -1,0 +1,135 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="The Blue Room — an interactive poster playground">
+  <section class="wrap lab-intro">
+    <span class="eyebrow mono">AN OPEN INVITATION TO EXPERIMENT</span>
+    <h1>
+      The <em>Blue Room.</em>
+    </h1>
+    <p>
+      Your words. A little structure. A happy accident. Make a composition and take it with you.
+    </p>
+  </section>
+  <section class="wrap playground" aria-label="Interactive poster designer">
+    <div class="poster-stage">
+      <svg
+        id="composition"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 720 900"
+        role="group"
+        aria-label="Your live poster composition"
+      >
+        <rect id="poster-bg" width="720" height="900" fill="#2457FF" />
+        <text x="40" y="56" fill="#F7F7F2" font-family="sans-serif" font-size="16">
+          THE BLUE ROOM / NAFIS
+        </text>
+        <g id="type-group" fill="#F7F7F2" font-family="sans-serif" font-weight="700">
+          <text x="40" y="270" font-size="140">
+            MAKE
+          </text>
+          <text x="40" y="420" font-size="140">
+            SOME
+          </text>
+          <text x="40" y="570" font-size="140">
+            NOISE
+          </text>
+        </g>
+        <g
+          id="symbol"
+          tabindex="0"
+          role="button"
+          aria-label="Move accent: use arrow keys or drag"
+          transform="translate(560 730)"
+        >
+          <circle r="76" fill="#FFE29A" />
+          <path
+            d="M-40 0H40M0-40V40M-28-28L28 28M-28 28L28-28"
+            stroke="#2457FF"
+            stroke-width="12"
+          />
+        </g>
+        <text
+          id="poster-bottom"
+          x="40"
+          y="860"
+          fill="#F7F7F2"
+          font-family="sans-serif"
+          font-size="16"
+        >
+          QUIET STRUCTURE. LOUD IDEAS.
+        </text>
+      </svg>
+      <p class="mono">DRAG THE ACCENT / OR FOCUS IT & USE ARROW KEYS</p>
+    </div>
+    <form id="poster-controls" class="controls">
+      <div class="control-heading">
+        <span class="mono">YOUR CREATIVE CONTROLS</span>
+        <span>↗</span>
+      </div>
+      <label>
+        Your words <textarea id="phrase" maxlength="45" rows="3">MAKE SOME NOISE</textarea>
+      </label>
+      <label>
+        Type scale <output id="scale-value">140</output>
+        <input id="scale" type="range" min="60" max="170" value="140" />
+      </label>
+      <label>
+        Colour story
+        <select id="palette">
+          <option value="blue">Electric / paper / yellow</option>
+          <option value="paper">Paper / cobalt / ink</option>
+          <option value="ink">Ink / ice / cobalt</option>
+          <option value="ice">Ice / ink / cobalt</option>
+        </select>
+      </label>
+      <label>
+        Composition
+        <select id="mode">
+          <option value="stack">The loud stack</option>
+          <option value="offset">Off the grid</option>
+          <option value="editorial">Editorial contrast</option>
+        </select>
+      </label>
+      <label>
+        Starting point
+        <select id="preset">
+          <option value="noise">Make some noise</option>
+          <option value="quiet">Quiet structure</option>
+          <option value="idea">Stay curious</option>
+        </select>
+      </label>
+      <div class="control-actions">
+        <button type="button" id="randomize">
+          Surprise me ↗
+        </button>
+        <button type="reset">Reset ↺</button>
+      </div>
+      <button type="button" class="button" id="export">
+        Download your SVG ↓
+      </button>
+      <p class="form-note">
+        A real vector file. No account. No uploads. Your words stay in your browser. Export uses a
+        system font for portability; appearance can vary between devices.
+      </p>
+      <p id="poster-status" aria-live="polite"></p>
+    </form>
+    <noscript>
+      <p>The poster controls need JavaScript. All other site content remains available.</p>
+    </noscript>
+  </section>
+  <section class="section wrap">
+    <span class="eyebrow mono">PLAY IS PART OF THE PROCESS</span>
+    <h2>
+      A little constraint.
+      <br />
+      <em>A lot of possibility.</em>
+    </h2>
+    <p class="narrow">
+      This is a live typography experiment created for this website, not a commissioned portfolio
+      project. Four colour stories, three compositional directions, and your own words.
+    </p>
+  </section>
+  <script src="../scripts/blue-room.ts"></script>
+</Layout>

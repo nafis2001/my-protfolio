@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../lib/site';
+---
+
+<Layout title="Contact — start a design conversation">
+  <section class="page-intro wrap">
+    <span class="eyebrow mono">LET’S MAKE SOMETHING WORTH NOTICING</span>
+    <h1>
+      Your idea.
+      <br />
+      <em>Our next conversation.</em>
+    </h1>
+    <p>
+      Tell me what you’re working on. A useful starting point: the audience, the deliverables, your
+      timing, and an indicative budget.
+    </p>
+  </section>
+  <section class="wrap contact-grid section compact">
+    <div>
+      <h2>Keep it human.</h2>
+      <p>
+        <a class="text-link" href="tel:+8801600120307">
+          +880 1600 120307 ↗
+        </a>
+      </p>
+      <p>
+        Based in Bangladesh. Open to local and international projects and creative collaborations.
+      </p>
+      {site.email ? (
+        <a class="text-link" href={`mailto:${site.email}`}>
+          {site.email} ↗
+        </a>
+      ) : (
+        <div class="notice">
+          <strong>Contact details pending verification.</strong>
+          <p>
+            This preview does not collect or send inquiries. A verified email address is needed
+            before launch.
+          </p>
+        </div>
+      )}
+      {site.profiles.map((p) => (
+        <p>
+          <a href={p.url} rel="me noopener">
+            {p.label} ↗
+          </a>
+        </p>
+      ))}
+    </div>
+    <form id="inquiry" data-email={site.email} hidden>
+      <label>
+        Your name
+        <input name="name" required autocomplete="name" maxlength="100" />
+      </label>
+      <label>
+        Your email
+        <input name="email" required type="email" autocomplete="email" maxlength="200" />
+      </label>
+      <label>
+        What are you making?
+        <textarea name="message" required minlength="10" maxlength="4000" rows="5" />
+      </label>
+      <button class="button" type="submit">
+        {site.email ? 'Prepare email draft ↗' : 'Prepare inquiry text ↗'}
+      </button>
+      <p class="form-note">
+        {site.email
+          ? 'Prepares a draft and a link to your email app. Nothing is sent automatically.'
+          : 'Creates text you can copy. Nothing is sent or stored.'}
+      </p>
+      <p id="form-status" aria-live="polite"></p>
+      <a id="email-draft" class="text-link" hidden>
+        Open email draft ↗
+      </a>
+      <textarea id="draft" aria-label="Prepared inquiry text" rows="8" readonly hidden></textarea>
+    </form>
+    <noscript>
+      <p>
+        Use the email or telephone link above to get in touch. The optional draft builder needs
+        JavaScript.
+      </p>
+    </noscript>
+  </section>
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#inquiry');
+    const field = form?.querySelector<HTMLTextAreaElement>('[name="message"]');
+    const service = new URL(location.href).searchParams.get('service');
+    if (field && service)
+      field.value = `I’d like to discuss ${service}.
+
+`;
+    if (form) form.hidden = false;
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const d = new FormData(form);
+      const body = `Hello Nafis,
+
+${d.get('message')}
+
+${d.get('name')}
+${d.get('email')}`;
+      const email = form.dataset.email;
+      if (email) {
+        const link = document.querySelector<HTMLAnchorElement>('#email-draft')!;
+        link.href = `mailto:${email}?subject=${encodeURIComponent('Design project inquiry')}&body=${encodeURIComponent(body)}`;
+        link.hidden = false;
+        const draft = document.querySelector<HTMLTextAreaElement>('#draft')!;
+        draft.hidden = false;
+        draft.value = body;
+        document.querySelector('#form-status')!.textContent =
+          'Draft ready. Open your email app using the link below, then send it yourself. Nothing has been sent.';
+      } else {
+        const draft = document.querySelector<HTMLTextAreaElement>('#draft')!;
+        draft.hidden = false;
+        draft.value = body;
+        draft.focus();
+        draft.select();
+        document.querySelector('#form-status')!.textContent =
+          'Your inquiry text is ready to copy. No message has been sent.';
+      }
+    });
+  </script>
+</Layout>

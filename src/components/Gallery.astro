@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import { publishedProjects } from '../lib/projects';
+const projects = await publishedProjects();
+const categories = [...new Set(projects.map((p) => p.data.category))];
+---
+
+{projects.length > 0 ? (
+  <>
+    <div class="filters" aria-label="Filter projects">
+      <button data-filter="all" aria-pressed="true">
+        All work
+      </button>
+      {categories.map((c) => (
+        <button data-filter={c} aria-pressed="false">
+          {c}
+        </button>
+      ))}
+    </div>
+    <p id="filter-status" class="sr-only" aria-live="polite"></p>
+    <div class="gallery">
+      {projects.map((p) => (
+        <article data-category={p.data.category}>
+          <a href={`/work/${p.data.slug}`}>
+            <div class="artwork">
+              <Image
+                src={p.data.media[0].src}
+                alt={p.data.media[0].alt}
+                widths={[400, 800, 1200]}
+                sizes="(max-width: 700px) 100vw, 50vw"
+                loading="lazy"
+              />
+            </div>
+            <div class="project-meta">
+              <h3>{p.data.title}</h3>
+              <span>
+                {p.data.category} / {p.data.year} ↗
+              </span>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </>
+) : (
+  <div class="pending">
+    <span class="mono">THE COLLECTION / CONTENT PENDING</span>
+    <h3>
+      The next collection
+      <br />
+      <em>is taking shape.</em>
+    </h3>
+    <p>
+      Approved original projects will appear here with their own stories, details, and full artwork.
+      In the meantime, make something of your own in The Blue Room.
+    </p>
+    <a class="text-link" href="/lab">
+      Step into The Blue Room ↗
+    </a>
+    <div class="ratio-studies" aria-label="Artwork format examples, not portfolio projects">
+      {['1:1', '4:5', '9:16', '16:9', '3:2', '5:1'].map((r, i) => (
+        <div style={`aspect-ratio:${r.replace(':', '/')}`}>
+          <span class="mono">
+            {String(i + 1).padStart(2, '0')}
+            <br />
+            {r}
+          </span>
+          <span>
+            FORMAT
+            <br />
+            STUDY
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  function filter(value: string) {
+    filters.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === value)));
+    let count = 0;
+    document.querySelectorAll<HTMLElement>('[data-category]').forEach((card) => {
+      card.hidden = value !== 'all' && card.dataset.category !== value;
+      if (!card.hidden) count++;
+    });
+    const status = document.querySelector('#filter-status');
+    if (status) status.textContent = `${count} projects shown`;
+  }
+  const initial = new URL(location.href).searchParams.get('category') || 'all';
+  filter([...filters].some((b) => b.dataset.filter === initial) ? initial : 'all');
+  filters.forEach((b) =>
+    b.addEventListener('click', () => {
+      const v = b.dataset.filter || 'all';
+      filter(v);
+      const u = new URL(location.href);
+      if (v === 'all') u.searchParams.delete('category');
+      else u.searchParams.set('category', v);
+      history.pushState({}, '', u);
+    }),
+  );
+  window.addEventListener('popstate', () =>
+    filter(new URL(location.href).searchParams.get('category') || 'all'),
+  );
+</script>

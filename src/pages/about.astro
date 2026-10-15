@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About — independent by choice">
+  <section class="page-intro wrap">
+    <span class="eyebrow mono">THE PERSON BEHIND THE PIXELS</span>
+    <h1>
+      Independent.
+      <br />
+      Curious.
+      <br />
+      <em>Deliberate.</em>
+    </h1>
+    <div class="split-copy">
+      <p class="lead">
+        I’m Nafis, a multidisciplinary graphic designer based in Bangladesh, open to conversations
+        across borders.
+      </p>
+      <div>
+        <p>
+          My practice brings together brand identity, advertising, packaging, typography, digital
+          campaigns, creative compositing, and motion. Different formats. One shared aim: make the
+          message unmistakable.
+        </p>
+        <p>
+          I’m drawn to the tension between a clear structure and an unexpected idea. A quiet grid.
+          An expressive image. Type that does more than fill a space.
+        </p>
+        <p>
+          This is an independent practice, with direct conversations and a considered approach to
+          every visual decision.
+        </p>
+        <a class="text-link" href="/services">
+          Explore the disciplines ↗
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="section wrap">
+    <span class="eyebrow mono">A WORKING PHILOSOPHY</span>
+    <div class="principles">
+      {[
+        [
+          '01',
+          'Understand before decorating.',
+          'Start with the message, the audience, and the context.',
+        ],
+        [
+          '02',
+          'Make every detail earn its place.',
+          'Colour, composition, and typography should work together.',
+        ],
+        [
+          '03',
+          'Stay open to the unexpected.',
+          'Experimentation is a useful way to find a clearer idea.',
+        ],
+      ].map(([n, t, d]) => (
+        <article>
+          <span class="mono">{n}</span>
+          <h2>{t}</h2>
+          <p>{d}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

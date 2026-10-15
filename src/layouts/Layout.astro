@@ -1,0 +1,141 @@
+---
+import '@fontsource/space-grotesk/latin-700.css';
+import '@fontsource/space-grotesk/latin-500.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '../styles/global.css';
+import { site, nav as baseNav } from '../lib/site';
+import { publishedNotes } from '../lib/notes';
+const notes = await publishedNotes();
+const nav =
+  notes.length >= 2
+    ? [...baseNav.slice(0, -1), ['Notes', '/notes'], baseNav[baseNav.length - 1]]
+    : baseNav;
+const {
+  title,
+  description = 'Independent multidisciplinary graphic designer in Bangladesh. Bold identities, campaigns, packaging and visual experiments.',
+  noindex = false,
+  image = '/social.png',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#2457FF" />
+    <title>{title} — Nafis</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={noindex || !site.launchReady ? 'noindex, nofollow' : 'index, follow'}
+    />
+    <meta property="og:title" content={`${title} — Nafis`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, site.url)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Person',
+            name: 'Nafis',
+            jobTitle: 'Independent multidisciplinary graphic designer',
+            url: site.url,
+            homeLocation: { '@type': 'Country', name: 'Bangladesh' },
+          },
+          { '@type': 'WebSite', name: 'Nafis — The Attention Studio', url: site.url },
+        ],
+      }).replace(/</g, '\u003c')}
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+    <header class="header">
+      <a class="wordmark" href="/" aria-label="Nafis home">
+        nafis<span>↗</span>
+      </a>
+      <span class="header-note mono">
+        INDEPENDENT DESIGNER
+        <br />
+        BANGLADESH / EVERYWHERE
+      </span>
+      <nav aria-label="Primary" class="desktop-nav">
+        {nav.map(([label, url]) => (
+          <a href={url} aria-current={Astro.url.pathname === url ? 'page' : undefined}>
+            {label}
+          </a>
+        ))}
+      </nav>
+      <details class="mobile-nav">
+        <summary>
+          Menu <span>＋</span>
+        </summary>
+        <nav aria-label="Mobile">
+          {nav.map(([label, url]) => (
+            <a href={url}>{label} ↗</a>
+          ))}
+        </nav>
+      </details>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer>
+      <div class="footer-top">
+        <p class="mono">GOOD WORK STARTS WITH A CONVERSATION.</p>
+        <a class="footer-call" href="/contact">
+          Have a bold idea? <span>Let’s talk ↗</span>
+        </a>
+      </div>
+      <div class="footer-bottom">
+        <a href="/">NAFIS.</a>
+        <p>Independent by choice. Curious by nature.</p>
+        <button id="motion" aria-pressed="false">
+          Reduce motion
+        </button>
+        <span>© {new Date().getFullYear()} Nafis</span>
+      </div>
+    </footer>
+    <script>
+      const button = document.querySelector<HTMLButtonElement>('#motion');
+      let reduced = localStorage.getItem('motion') === 'reduced';
+      function apply() {
+        document.documentElement.dataset.motion = reduced ? 'reduced' : 'full';
+        button?.setAttribute('aria-pressed', String(reduced));
+        if (button) button.textContent = reduced ? 'Enable motion' : 'Reduce motion';
+      }
+      apply();
+      button?.addEventListener('click', () => {
+        reduced = !reduced;
+        localStorage.setItem('motion', reduced ? 'reduced' : 'full');
+        apply();
+      });
+      const observer = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.08 },
+      );
+      document
+        .querySelectorAll('.section-heading, .lab-teaser, .principles article')
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

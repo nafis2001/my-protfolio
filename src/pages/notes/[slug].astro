@@ -1,0 +1,60 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { publishedNotes } from '../../lib/notes';
+import { site } from '../../lib/site';
+export async function getStaticPaths() {
+  return (await publishedNotes()).map((note) => ({
+    params: { slug: note.data.slug },
+    props: { note },
+  }));
+}
+const { note } = Astro.props;
+const { Content } = await render(note);
+const n = note.data;
+---
+
+<Layout title={n.title} description={n.description}>
+  <section class="page-intro wrap">
+    <nav class="mono" aria-label="Breadcrumb">
+      <a href="/">Home</a> / <a href="/notes">Notes</a> / {n.title}
+    </nav>
+    <h1>{n.title}</h1>
+    <p>{n.description}</p>
+    <p class="mono">
+      <time datetime={n.publishedAt.toISOString()}>
+        {n.publishedAt.toLocaleDateString('en-GB', {
+          timeZone: 'Asia/Dhaka',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
+      </time>{' '}
+      / BY NAFIS
+    </p>
+  </section>
+  <article class="prose wrap">
+    <Content />
+  </article>
+  <section class="section wrap">
+    <a class="text-link" href="/notes">
+      More notes ↗
+    </a>
+    <p>
+      <a href="/contact">Have a project in mind? Let’s talk ↗</a>
+    </p>
+  </section>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: n.title,
+      description: n.description,
+      datePublished: n.publishedAt.toISOString(),
+      dateModified: (n.updatedAt || n.publishedAt).toISOString(),
+      author: { '@type': 'Person', name: 'Nafis', url: site.url },
+      mainEntityOfPage: new URL(`/notes/${n.slug}/`, site.url),
+    }).replace(/</g, '\u003c')}
+  />
+</Layout>

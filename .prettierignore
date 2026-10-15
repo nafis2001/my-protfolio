@@ -1,0 +1,9 @@
+node_modules
+.astro
+dist
+package-lock.json
+public/licenses
+public/social.svg
+public/social.png
+playwright-report
+test-results

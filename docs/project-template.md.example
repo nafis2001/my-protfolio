@@ -1,0 +1,29 @@
+---
+slug: replace-with-descriptive-slug
+title: Replace with actual project title
+category: Branding
+year: 2026
+client: Personal project — confirm actual status
+role: Replace with accurate contribution
+description: Replace with a factual short description.
+tags: [identity]
+featured: false
+order: 1
+status: draft
+media:
+  - src: ../../assets/projects/your-project/actual-artwork.webp
+    alt: Describe the actual artwork and meaningful visible details.
+    caption: Optional factual caption.
+externalLinks: []
+seo:
+  title: Actual project title and discipline
+  description: A distinctive factual project summary.
+---
+
+## The project
+
+Add approved factual context. Do not invent a brief, a client, process, or results.
+
+## Delivered work
+
+Describe the actual outputs and your contribution.

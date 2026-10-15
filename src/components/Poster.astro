@@ -1,0 +1,25 @@
+---
+const { variant = 'blue', label = 'THE BLUE ROOM / LIVE TYPE EXPERIMENT' } = Astro.props;
+---
+
+<div
+  class:list={['poster', variant]}
+  role="img"
+  aria-label="Original interface typography experiment: Make some noise. Not portfolio client work."
+>
+  <div class="poster-meta mono">
+    <span>NAFIS / TYPE STUDY 001</span>
+    <span>↗</span>
+  </div>
+  <div class="poster-type">
+    MAKE
+    <br />
+    <span>SOME</span>
+    <br />
+    NOISE<span class="poster-dot">✳</span>
+  </div>
+  <div class="poster-foot mono">
+    <span>{label}</span>
+    <span>EST. NOW</span>
+  </div>
+</div>

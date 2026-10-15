@@ -1,0 +1,138 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import { publishedProjects } from '../../lib/projects';
+import { site } from '../../lib/site';
+export async function getStaticPaths() {
+  const projects = await publishedProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.data.slug },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+const { project, next } = Astro.props;
+const { Content } = await render(project);
+const p = project.data;
+---
+
+<Layout title={p.seo.title} description={p.seo.description} image={p.media[0].src.src}>
+  <section class="page-intro wrap">
+    <nav class="mono" aria-label="Breadcrumb">
+      <a href="/">Home</a> / <a href="/work">Work</a> / {p.title}
+    </nav>
+    <h1>{p.title}</h1>
+    <p>{p.description}</p>
+    <dl class="project-facts">
+      <div>
+        <dt>Discipline</dt>
+        <dd>{p.category}</dd>
+      </div>
+      <div>
+        <dt>Client / status</dt>
+        <dd>{p.client}</dd>
+      </div>
+      <div>
+        <dt>Role</dt>
+        <dd>{p.role}</dd>
+      </div>
+      <div>
+        <dt>Year</dt>
+        <dd>{p.year}</dd>
+      </div>
+    </dl>
+  </section>
+  <div class="wrap project-images">
+    {p.media.map((m, i) => (
+      <figure>
+        {m.video ? (
+          <video
+            controls
+            playsinline
+            preload="none"
+            width={m.video.width}
+            height={m.video.height}
+            poster={m.src.src}
+            aria-label={m.alt}
+          >
+            <source
+              src={m.video.src}
+              type={m.video.src.endsWith('.webm') ? 'video/webm' : 'video/mp4'}
+            />
+            {m.video.captions && (
+              <track
+                kind="captions"
+                src={m.video.captions}
+                srclang="en"
+                label="English captions"
+                default
+              />
+            )}
+            <p>
+              <a href={m.video.src}>Download the video</a>
+            </p>
+          </video>
+        ) : (
+          <Image
+            src={m.src}
+            alt={m.alt}
+            widths={[480, 960, 1600]}
+            sizes="(max-width: 1600px) 94vw, 1500px"
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        )}
+        {m.caption && <figcaption>{m.caption}</figcaption>}
+        <a href={m.src.src} target="_blank" rel="noopener">
+          {m.video ? 'View poster image ↗' : 'View complete image ↗'}
+        </a>
+      </figure>
+    ))}
+  </div>
+  <article class="prose wrap">
+    <Content />
+    {p.externalLinks.map((l) => (
+      <p>
+        <a href={l.url} rel="noopener">
+          {l.label} ↗
+        </a>
+      </p>
+    ))}
+  </article>
+  <section class="section wrap">
+    <a class="footer-call" href={`/work/${next.data.slug}`}>
+      Next project: {next.data.title} ↗
+    </a>
+    <p>
+      <a href="/contact">Discuss a similar project ↗</a>
+    </p>
+  </section>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: p.title,
+      description: p.description,
+      creator: { '@type': 'Person', name: 'Nafis' },
+      url: new URL(`/work/${p.slug}`, site.url),
+      image: p.media.map((m) => new URL(m.src.src, site.url)),
+    }).replace(/</g, '\u003c')}
+  />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+        { '@type': 'ListItem', position: 2, name: 'Work', item: new URL('/work', site.url) },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: p.title,
+          item: new URL(`/work/${p.slug}`, site.url),
+        },
+      ],
+    }).replace(/</g, '\u003c')}
+  />
+</Layout>

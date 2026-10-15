@@ -1,0 +1,11 @@
+# Remaining steps, in order
+
+1. Source preparation: implementation, content schemas, browser tests and documentation are included in this repository. The owner authorized pushing to main in nafis2001/my-protfolio. Check the final handoff for the actual push outcome.
+2. Create a Cloudflare account yourself at https://dash.cloudflare.com/sign-up. There is no connected Cloudflare deployment tool in this session. Use only the free Pages option after checking current terms and limits. Do not buy a domain, add a paid subscription or share passwords/API tokens in chat.
+3. In Cloudflare Workers & Pages, create a new Pages project using the GitHub integration. Authorize access to this repository only where the UI supports it. Select nafis2001/my-protfolio and main. Never replace another project.
+4. Set build command npm run build, output dist, root repository root, and Node 24. Choose an available free pages.dev project name. Set SITE_URL to that exact HTTPS URL; leave PUBLIC_LAUNCH_READY=false. This produces an unindexed preview, not a launch-ready portfolio. No deployment has been performed by merely writing these instructions.
+5. Provide approved artwork: ideally 4–6 projects with actual titles, categories, years, roles, client/personal status and permission to publish. Add truthful descriptions and alt text. Use docs/CONTENT.md and its templates; process/outcomes may be omitted when undocumented.
+6. Inspect the deployed preview. Verify mobile layout, artwork proportions, motion playback/captions, links, contact drafts and phone/email clients. Run tests and Lighthouse again with actual assets. Firefox/WebKit and real-device checks remain required before a full cross-browser claim.
+7. Ask for or give explicit final website publication approval after reviewing the content. Only then set PUBLIC_LAUNCH_READY=true for production and rebuild. Run npm run launch:check against the matching production build. Keep preview environments unindexed.
+8. Add the public URL-prefix property in Google Search Console, follow its real verification-file instructions, redeploy, and submit sitemap-index.xml. No verification token or indexing submission has been created here.
+9. Follow docs/SEO.md for the 90-day plan and use actual Search Console observations to guide revisions.
