@@ -2,7 +2,6 @@ import type {Project, Service, Media} from './types';
 
 // Curated artwork sourced from the portfolio owner's connected Google Drive.
 // The images are real design exports. No campaign performance outcomes are asserted.
-const assetRoot='https://raw.githubusercontent.com/nafis2001/my-protfolio/main/nafis-cinematic-portfolio/public/portfolio/';
 const localAssetMap:Record<string,string>={
  'borno-bazar-main.png':'borno-bazar-campaign.jpg',
  'yaqeen-brand-cover.png':'yaqeen-brand-cover.jpg',
@@ -13,7 +12,7 @@ const localAssetMap:Record<string,string>={
  'naviforce-mnemonic.png':'naviforce-mnemonic.png',
  'yaqeen-packaging-family.png':'yaqeen-packaging.jpg'
 };
-const asset=(name:string)=>localAssetMap[name]?'/portfolio/'+localAssetMap[name]:assetRoot+name;
+const asset=(name:string)=>'/portfolio/'+(localAssetMap[name]||name);
 const media=(name:string,alt:string):Media=>({url:asset(name),alt,type:'image'});
 
 const base={

@@ -2,9 +2,10 @@ import Link from 'next/link';
 import {ArrowUpRight, ArrowDownRight, ArrowRight, Sparkles} from 'lucide-react';
 import {projects,services} from '@/lib/data';
 import {ProjectCard} from '@/components/ProjectCard';
+import {getSettings} from '@/lib/settings';
 
 export default async function Home(){
- const [all,offerings]=await Promise.all([projects(),services()]);
+ const [all,offerings,settings]=await Promise.all([projects(),services(),getSettings()]);
  const selected=all.filter(p=>p.featured).slice(0,6);
  return <>
   <section className="hero hero-editorial" aria-labelledby="home-heading">
@@ -12,8 +13,8 @@ export default async function Home(){
     <div className="hero-grid hero-editorial-grid">
      <div className="hero-copy reveal">
       <div className="hero-overline"><span className="eyebrow">NAFIS IBN MASUD / CREATIVE VISUALIZER</span><span className="hero-edition">PORTFOLIO / 2026</span></div>
-      <h1 id="home-heading" className="hero-statement">Curiosity,<br/><span>made visual.</span></h1>
-      <p className="hero-desc">A multidisciplinary graphic designer crafting visual stories for brands, campaigns, products and everything in between.</p>
+      <h1 id="home-heading" className="hero-statement">{settings.hero_title==='Curiosity, made visual.'?<>{'Curiosity,'}<br/><span>made visual.</span></>:settings.hero_title}</h1>
+      <p className="hero-desc">{settings.hero_description}</p>
       <div className="hero-buttons">
        <Link className="btn primary" href="/work">Explore my work <ArrowUpRight size={18}/></Link>
        <Link className="btn" href="/contact">Start a conversation <ArrowUpRight size={17}/></Link>
