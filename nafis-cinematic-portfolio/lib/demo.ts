@@ -103,5 +103,6 @@ export const demoProjects:Project[]=[
 export const demoServices:Service[]=[
  {id:'s1',title:'Brand & Visual Identity',slug:'brand-identity',description:'Thoughtful identities that express what a business stands for.',deliverables:['Creative direction','Logo system','Brand guidelines'],turnaround:'Scope-dependent',starting_price:null,sort_order:1,published:true},
  {id:'s2',title:'Campaign & Social Design',slug:'campaign-design',description:'Scroll-stopping visuals built around a powerful idea.',deliverables:['Key visuals','Social systems','Ad adaptations'],turnaround:'Scope-dependent',starting_price:null,sort_order:2,published:true},
- {id:'s3',title:'Packaging & Editorial',slug:'packaging-editorial',description:'Physical and digital experiences with memorable craft.',deliverables:['Packaging concepts','Print-ready artwork','Editorial layouts'],turnaround:'Scope-dependent',starting_price:null,sort_order:3,published:true}
+ {id:'s3',title:'Packaging & Editorial',slug:'packaging-editorial',description:'Physical and digital experiences with memorable craft.',deliverables:['Packaging concepts','Print-ready artwork','Editorial layouts'],turnaround:'Scope-dependent',starting_price:null,sort_order:3,published:true},
+ {id:'s4',title:'Motion & Video Stories',slug:'motion-video',description:'Movement, rhythm and storytelling for social, brand and digital campaigns.',deliverables:['Motion graphics','Short-form edits','Campaign video design'],turnaround:'Scope-dependent',starting_price:null,sort_order:4,published:true}
 ];

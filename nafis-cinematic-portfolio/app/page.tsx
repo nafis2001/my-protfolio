@@ -2,10 +2,9 @@ import Link from 'next/link';
 import {ArrowUpRight, ArrowDownRight, ArrowRight, Sparkles} from 'lucide-react';
 import {projects,services} from '@/lib/data';
 import {ProjectCard} from '@/components/ProjectCard';
-import {getSettings} from '@/lib/settings';
 
 export default async function Home(){
- const [all,offerings,settings]=await Promise.all([projects(),services(),getSettings()]);
+ const [all,offerings]=await Promise.all([projects(),services()]);
  const selected=all.filter(p=>p.featured).slice(0,6);
  return <>
   <section className="hero hero-editorial" aria-labelledby="home-heading">

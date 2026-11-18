@@ -6,15 +6,15 @@ export async function projects(includeDrafts=false):Promise<Project[]>{
  const db=await serverDb(); if(!db)return [];
  let q=db.from('projects').select('*').order('sort_order',{ascending:true});
  if(!includeDrafts)q=q.eq('status','published').or(`published_at.is.null,published_at.lte.${new Date().toISOString()}`);
- const {data,error}=await q;if(error){console.error('projects query failed',error.message);return []}
- return data as Project[];
+ const {data,error}=await q;if(error){console.error('projects query failed',error.message);return demoProjects}
+ return data?.length ? data as Project[] : demoProjects;
 }
 export async function projectBySlug(slug:string){return (await projects()).find(p=>p.slug===slug)}
 export async function services():Promise<Service[]>{
  if(!configured)return demoServices;
  const db=await serverDb();if(!db)return [];
  const {data,error}=await db.from('services').select('*').eq('published',true).order('sort_order');
- if(error){console.error('services query failed',error.message);return []}return data as Service[];
+ if(error){console.error('services query failed',error.message);return demoServices}return data?.length ? data as Service[] : demoServices;
 }
 export async function testimonials():Promise<Testimonial[]>{
  if(!configured)return [];
