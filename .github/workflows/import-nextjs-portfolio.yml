@@ -1,0 +1,30 @@
+name: Unpack cinematic portfolio source
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'nafis-cinematic-portfolio/source.tar.xz'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout existing portfolio repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Expand Next.js portfolio without touching existing Astro site
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p nafis-cinematic-portfolio
+          tar -xJf nafis-cinematic-portfolio/source.tar.xz -C nafis-cinematic-portfolio --strip-components=1
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add nafis-cinematic-portfolio
+          if ! git diff --cached --quiet; then
+            git commit -m "Add cinematic Next.js portfolio source"
+            git push
+          fi
