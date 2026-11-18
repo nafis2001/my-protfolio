@@ -472,3 +472,73 @@ p{line-height:1.75}
  .process-next .btn{margin-top:22px}
 }
 @media(max-width:390px){.service-page-bottom{flex-direction:column;align-items:flex-start}}
+
+
+/* Adaptive original-ratio project frames (2026-11-19) */
+/* Images remain at their native proportions, including newly uploaded CMS media.
+   Do not force a cover into a predetermined horizontal thumbnail. */
+.project-art.has-cover,
+.featured-grid .project-image-wrap .project-art.has-cover,
+.work-cards .project-art.has-cover,
+.work-list .project-image-wrap .project-art.has-cover,
+.case-cover .wide-art.has-cover {
+  display:block;
+  height:auto;
+  min-height:0;
+  aspect-ratio:auto;
+}
+.project-art.has-cover .project-cover-image {
+  position:relative;
+  inset:auto;
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  aspect-ratio:auto;
+  object-fit:contain;
+  filter:none;
+}
+.project-art.has-cover .project-cover-haze {display:none}
+.project-card:hover .project-art.has-cover .project-cover-image {transform:none}
+
+/* True image-led masonry: portrait, square and panoramic artwork make their own frames. */
+.featured-grid,
+.work-cards:not(.work-list) {
+  display:block;
+  columns:2;
+  column-gap:24px;
+}
+.featured-grid .project-card,
+.work-cards:not(.work-list) .project-card {
+  display:inline-block;
+  width:100%;
+  max-width:100%;
+  break-inside:avoid;
+  margin:0 0 26px;
+  vertical-align:top;
+}
+.gallery-grid {
+  display:block;
+  columns:2;
+  column-gap:20px;
+}
+.gallery-grid .gallery-tile {
+  display:block;
+  width:100%;
+  break-inside:avoid;
+  margin:0 0 20px;
+}
+.gallery-tile img,
+.gallery-tile video {
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+.gallery-tile figcaption {line-height:1.55}
+@media (max-width:700px) {
+  .featured-grid,
+  .work-cards:not(.work-list),
+  .gallery-grid {columns:1}
+}
