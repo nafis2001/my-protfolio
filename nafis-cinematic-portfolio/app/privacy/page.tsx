@@ -1,3 +1,17 @@
+import Link from 'next/link';
 import {metadata as makeMetadata} from '@/lib/seo';
-export const metadata:import('next').Metadata=makeMetadata('Privacy Policy','Learn how contact information is handled on this portfolio.','/privacy');
-export default function Privacy(){return <div className="container section"><div className="page-intro"><span className="eyebrow">Privacy</span><h1>Your trust <span style={{color:'var(--accent)'}}>matters.</span></h1><p>Last updated: November 18, 2026</p></div><div style={{maxWidth:790}}><h3>Information collected</h3><p>When you contact me, I collect the details you submit: name, email, project type, budget, timeline and message. A technical anti-spam rate-limit record may be temporarily stored.</p><h3>Purpose</h3><p>Contact details are used to reply to your enquiry and communicate about requested services. They are not sold to advertisers.</p><h3>Storage and retention</h3><p>Submissions are stored in the site database and are accessible only to the administrator. Contact requests are kept until no longer required for correspondence, then deleted. Request deletion using the contact form.</p><h3>Third parties</h3><p>Hosting and database services may process information as necessary to operate this website. Optional email sending is handled by an email delivery provider when configured.</p><h3>Cookies</h3><p>Authentication cookies are used for the private administration area. A local theme preference is saved in your browser. No advertising cookies are configured by default.</p><h3>Questions</h3><p>Use the contact form if you have questions about this policy or your data.</p></div></div>}
+export const metadata:import('next').Metadata=makeMetadata('Privacy','Privacy and data handling information for the Nafis Ibn Masud design portfolio.','/privacy');
+export default function Privacy(){
+ const enabled=Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL&&process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY&&process.env.SUPABASE_SERVICE_ROLE_KEY);
+ return <div className="container section privacy-page">
+  <div className="page-intro"><span className="eyebrow">PRIVACY / PLAIN & SIMPLE</span><h1>Trust is<br/><em>everything.</em></h1><p>Last updated: November 19, 2026</p></div>
+  <div className="policy-content">
+   <h2>What this website does</h2><p>This portfolio displays design work and offers ways to get in touch. It does not run advertising trackers by default.</p>
+   <h2>Contact enquiries</h2>
+   {enabled?<p>If you submit an enquiry through the contact form, the details you enter (including your name, email address, project information and message) are stored securely for the purpose of responding to your request. Technical rate-limit information may also be processed to prevent spam.</p>:<p>The on-site project brief builder does not send or save your answers. They stay in your browser until you choose to copy them. If you open LinkedIn, Behance, Instagram or an email application, the privacy practices of that service apply to the message you send there.</p>}
+   <h2>Theme preferences</h2><p>The dark/light appearance setting is saved in local browser storage so your preferred theme can be used on a future visit.</p>
+   <h2>Hosting and external links</h2><p>This website is hosted on Vercel. The site includes links to external profiles and uses image resources where required. Those services may process request data according to their own policies.</p>
+   <h2>Your choices</h2><p>You can clear the site's stored theme preference in your browser. For questions regarding a message sent via a third-party platform, you can <Link href="/contact">contact me through my available channels</Link>.</p>
+  </div>
+ </div>;
+}
