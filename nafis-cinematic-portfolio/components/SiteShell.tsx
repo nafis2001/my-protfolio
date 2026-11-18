@@ -5,7 +5,7 @@ import {ArrowUpRight,Menu,Sun,Moon,X} from 'lucide-react';
 export function Header(){
  const [open,setOpen]=useState(false); const [light,setLight]=useState(false);
  useEffect(()=>{const v=localStorage.getItem('theme')==='light';setLight(v);document.documentElement.dataset.theme=v?'light':'dark'},[]);
- const toggle=()=>{const v=!light;setLight(v);document.documentElement.dataset.theme=v?'light':'dark';localStorage.setItem('theme',v)};
+ const toggle=()=>{const v=!light;setLight(v);document.documentElement.dataset.theme=v?'light':'dark';localStorage.setItem('theme',v?'light':'dark')};
  return <header className="topbar"><nav className="container nav" aria-label="Main navigation"><Link className="wordmark" href="/" aria-label="Nafis Ibn Masud home">NAFIS<span style={{color:'var(--accent)'}}>.</span></Link><div className={'navlinks '+(open?'open':'')}>
  {['Work','About','Services','Process','Contact'].map(x=><Link key={x} onClick={()=>setOpen(false)} href={'/'+x.toLowerCase()}>{x}</Link>)}
  </div><div className="navend"><button className="btn ghost" onClick={toggle} aria-label={light?'Switch to dark theme':'Switch to light theme'}>{light?<Moon size={17}/>:<Sun size={17}/>}</button><Link href="/contact" className="btn primary contact-nav">Let’s talk <ArrowUpRight size={16}/></Link><button className="btn menu-toggle" aria-label="Toggle navigation" aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X size={18}/>:<Menu size={18}/>}</button></div></nav></header>
