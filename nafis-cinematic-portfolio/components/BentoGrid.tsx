@@ -26,8 +26,8 @@ export function BentoGrid({children,className=''}:{children:ReactNode;className?
   function update(){
    if(!grid)return;
    const gridWidth=grid.getBoundingClientRect().width;
-   const narrow=gridWidth<620;
-   const medium=gridWidth>=620&&gridWidth<950;
+   const narrow=window.innerWidth<=700;
+   const medium=!narrow&&gridWidth<950;
    const styles=getComputedStyle(grid);
    const rowHeight=parseFloat(styles.gridAutoRows)||8;
    const rowGap=parseFloat(styles.rowGap)||12;
