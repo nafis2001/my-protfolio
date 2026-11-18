@@ -1,0 +1,14 @@
+'use client';
+import Link from 'next/link';
+import {useState,useEffect} from 'react';
+import {ArrowUpRight,Menu,Sun,Moon,X} from 'lucide-react';
+export function Header(){
+ const [open,setOpen]=useState(false); const [light,setLight]=useState(false);
+ useEffect(()=>{const v=localStorage.getItem('theme')==='light';setLight(v);document.documentElement.dataset.theme=v?'light':'dark'},[]);
+ const toggle=()=>{const v=!light;setLight(v);document.documentElement.dataset.theme=v?'light':'dark';localStorage.setItem('theme',v)};
+ return <header className="topbar"><nav className="container nav" aria-label="Main navigation"><Link className="wordmark" href="/" aria-label="Nafis Ibn Masud home">NAFIS<span style={{color:'var(--accent)'}}>.</span></Link><div className={'navlinks '+(open?'open':'')}>
+ {['Work','About','Services','Process','Contact'].map(x=><Link key={x} onClick={()=>setOpen(false)} href={'/'+x.toLowerCase()}>{x}</Link>)}
+ </div><div className="navend"><button className="btn ghost" onClick={toggle} aria-label={light?'Switch to dark theme':'Switch to light theme'}>{light?<Moon size={17}/>:<Sun size={17}/>}</button><Link href="/contact" className="btn primary contact-nav">Let’s talk <ArrowUpRight size={16}/></Link><button className="btn menu-toggle" aria-label="Toggle navigation" aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X size={18}/>:<Menu size={18}/>}</button></div></nav></header>
+}
+export function Footer(){return <><section className="closing"><div className="container"><span className="eyebrow">A good idea deserves to be seen</span><h2>Have something <span style={{color:'var(--accent)'}}>bold</span> in mind?</h2><Link href="/contact" className="btn primary">Start a conversation <ArrowUpRight size={16}/></Link></div></section><footer className="container footer"><div><div className="wordmark" style={{color:'var(--ink)'}}>NAFIS.</div><p>Independent creative visualizer · Dhaka, Bangladesh</p><small>© {new Date().getFullYear()} Nafis Ibn Masud. Thoughtfully made.</small></div><div className="footer-links"><a href="https://www.behance.net/nafis24" target="_blank" rel="noopener noreferrer">Behance</a><a href="https://www.linkedin.com/in/nafis1287/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://www.instagram.com/nafisfreelancer/" target="_blank" rel="noopener noreferrer">Instagram</a><Link href="/privacy">Privacy</Link><Link href="/resume">Résumé</Link></div></footer></>}
+export function ScrollProgress(){const [v,setV]=useState(0);useEffect(()=>{const f=()=>{const max=document.documentElement.scrollHeight-innerHeight;setV(max>0?scrollY/max:0)};window.addEventListener('scroll',f,{passive:true});f();return()=>window.removeEventListener('scroll',f)},[]);return <div aria-hidden className="progress" style={{width:`${v*100}%`}}/>}

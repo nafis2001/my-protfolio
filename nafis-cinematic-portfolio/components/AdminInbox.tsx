@@ -1,0 +1,5 @@
+'use client';
+import {useState,useTransition} from 'react';
+import {markRead} from '@/app/admin/actions';
+type Entry={id:string;name:string;email:string;project_type:string;message:string;read:boolean;created_at:string};
+export function AdminInbox({entries}:{entries:Entry[]}){const [items,setItems]=useState(entries),[pending,start]=useTransition(),[notice,setNotice]=useState('');return <><p role="status">{notice}</p>{items.length?items.map(x=><article className="panel" style={{margin:'15px 0'}} key={x.id}><span className="eyebrow">{x.read?'Read':'Unread'} · {new Date(x.created_at).toLocaleString()}</span><h3>{x.name} — {x.project_type}</h3><p>{x.message}</p><a href={`mailto:${encodeURIComponent(x.email)}`} className="btn">Reply by email ↗</a> <button className="btn" disabled={pending} onClick={()=>start(async()=>{const result=await markRead(x.id,!x.read);if(result.ok)setItems(s=>s.map(y=>y.id===x.id?{...y,read:!y.read}:y));else setNotice(result.error||'Unable to update')})}>Mark {x.read?'unread':'read'}</button></article>):<div className="panel">No enquiries yet.</div>}</>}

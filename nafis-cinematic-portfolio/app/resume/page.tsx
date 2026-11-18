@@ -1,0 +1,4 @@
+import {metadata as makeMetadata} from '@/lib/seo';
+import {getSettings} from '@/lib/settings';
+export const metadata:import('next').Metadata=makeMetadata('Résumé','Professional résumé and creative skills of Nafis Ibn Masud.','/resume');
+export default async function Resume(){const settings=await getSettings();return <div className="container section"><div className="page-intro"><span className="eyebrow">Résumé / CV</span><h1>Experience.<br/><span style={{color:'var(--accent)'}}>In progress.</span></h1><p>A downloadable, verified CV will be published when an approved PDF is uploaded in site settings.</p>{settings.cv_url&&<a className="btn primary" href={settings.cv_url} target="_blank" rel="noopener noreferrer">Download approved CV ↗</a>} <a className="btn" href="https://www.behance.net/nafis24" target="_blank" rel="noopener noreferrer">Explore Behance ↗</a></div></div>}

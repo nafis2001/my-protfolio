@@ -1,0 +1,14 @@
+{
+  "notice": "Editorial demonstration content. Client associations and results are not verified public portfolio records. These do not claim engagements, testimonials, or measurable business outcomes.",
+  "projects": [
+    {"title":"Borno Bazar — Beyond the Ordinary","slug":"borno-bazar-storytelling","category":"Social campaigns","client":"Borno Bazar","year":2026,"summary":"Playful visual storytelling for a pickle brand."},
+    {"title":"Yaqeen Sweets — A Refined Identity","slug":"yaqeen-sweets-identity","category":"Brand identity","client":"Yaqeen Sweets","year":2026,"summary":"Black-and-gold identity exploration."},
+    {"title":"Nongor Food — The Taste of Memory","slug":"nongor-food-campaign","category":"Social campaigns","client":"Nongor Food","year":2026,"summary":"A fresh visual language for familiar snacks."},
+    {"title":"A One Food — Menu Reimagined","slug":"a-one-menu-design","category":"Print & editorial","client":"A One Food","year":2026,"summary":"Editorial menu exploration."},
+    {"title":"Makeup Chari — The Bloom of Hydration","slug":"makeup-chari-beauty","category":"Art direction","client":"Makeup Chari","year":2026,"summary":"Beauty advertising visual exploration."},
+    {"title":"NAVIFORCE — A Moment of Momentum","slug":"naviforce-campaign","category":"Campaign design","client":"NAVIFORCE","year":2026,"summary":"Watch campaign conceptual artwork."}
+  ],
+  "services":[{"title":"Brand & Visual Identity","slug":"brand-identity"},{"title":"Campaign & Social Design","slug":"campaign-design"},{"title":"Packaging & Editorial","slug":"packaging-editorial"}],
+  "testimonials":[{"quote":"[VERIFIED QUOTE NEEDED]","author":"[NAME NEEDED]","role":"[ROLE NEEDED]","company":"[COMPANY NEEDED]","published":false},{"quote":"[VERIFIED QUOTE NEEDED]","author":"[NAME NEEDED]","role":"[ROLE NEEDED]","company":"[COMPANY NEEDED]","published":false},{"quote":"[VERIFIED QUOTE NEEDED]","author":"[NAME NEEDED]","role":"[ROLE NEEDED]","company":"[COMPANY NEEDED]","published":false}],
+  "client_logos":[{"name":"Borno Bazar","logo_url":null},{"name":"Yaqeen Sweets","logo_url":null},{"name":"Nongor Food","logo_url":null},{"name":"A One Food","logo_url":null},{"name":"Makeup Chari","logo_url":null},{"name":"NAVIFORCE","logo_url":null}]
+}

@@ -1,0 +1,51 @@
+-- Execute in Supabase SQL editor. Demo entries are NOT automatically inserted.
+create extension if not exists pgcrypto;
+create table if not exists public.owner_roles (user_id uuid primary key references auth.users(id) on delete cascade);
+create function public.is_owner() returns boolean language sql stable security definer set search_path=public as $$select exists(select 1 from public.owner_roles where user_id=auth.uid())$$;
+create table if not exists public.clients (id uuid primary key default gen_random_uuid(),name text not null,slug text not null unique,logo_url text,website text,sort_order int default 0,published boolean default true,created_at timestamptz default now());
+create table if not exists public.projects (id uuid primary key default gen_random_uuid(),title text not null,slug text not null unique,summary text not null default '',category text not null default 'Design',tags text[] not null default '{}',client text not null default '',client_id uuid references public.clients(id) on delete set null,year integer not null default extract(year from now()),role text not null default '',tools text[] not null default '{}',duration text not null default '',deliverables text[] not null default '{}',cover_image text,gallery jsonb not null default '[]',body_blocks jsonb not null default '[]',challenge text not null default '',approach text not null default '',solution text not null default '',results text not null default '',featured boolean not null default false,sort_order int not null default 0,status text not null default 'draft' check(status in ('draft','published')),published_at timestamptz,seo_title text,seo_description text,created_at timestamptz default now(),updated_at timestamptz default now());
+create table if not exists public.services (id uuid primary key default gen_random_uuid(),title text not null,slug text not null unique,description text not null default '',deliverables text[] not null default '{}',turnaround text not null default 'Scope-dependent',starting_price text,sort_order int default 0,published boolean default true,created_at timestamptz default now());
+create table if not exists public.testimonials (id uuid primary key default gen_random_uuid(),quote text not null,author text not null,role text not null default '',company text not null default '',published boolean not null default false,sort_order int default 0,created_at timestamptz default now());
+create table if not exists public.journal_posts(id uuid primary key default gen_random_uuid(),title text not null,slug text not null unique,excerpt text not null default '',body_blocks jsonb not null default '[]',cover_image text,status text not null default 'draft',published_at timestamptz,seo_title text,seo_description text,created_at timestamptz default now());
+create table if not exists public.site_settings(id int primary key default 1 check(id=1),hero_title text not null default 'Visuals with a pulse.',hero_description text not null default '',available boolean not null default true,social_links jsonb not null default '{}',theme jsonb not null default '{}',cv_url text,seo_defaults jsonb not null default '{}',updated_at timestamptz default now());
+insert into public.site_settings(id) values(1) on conflict do nothing;
+create table if not exists public.contact_submissions(id uuid primary key default gen_random_uuid(),name text not null,email text not null,project_type text not null,budget text,timeline text,project_link text,message text not null,consent boolean not null default false,read boolean not null default false,created_at timestamptz default now());
+create table if not exists public.contact_rate_limits(ip_hash text primary key,window_start timestamptz not null default now(),attempts integer not null default 1);
+create function public.check_contact_rate_limit(request_ip text) returns boolean language plpgsql security definer set search_path=public as $$declare hashed text:=encode(digest(request_ip,'sha256'),'hex');allowed boolean;begin insert into public.contact_rate_limits(ip_hash,window_start,attempts) values(hashed,now(),1) on conflict(ip_hash) do update set attempts=case when contact_rate_limits.window_start<now()-interval '1 hour' then 1 else contact_rate_limits.attempts+1 end,window_start=case when contact_rate_limits.window_start<now()-interval '1 hour' then now() else contact_rate_limits.window_start end returning attempts<=5 into allowed;return allowed;end$$;
+revoke all on function public.check_contact_rate_limit(text) from public,anon,authenticated;
+create index if not exists projects_public_idx on public.projects(status,published_at,sort_order);
+create index if not exists inbox_recent_idx on public.contact_submissions(created_at desc);
+create function public.set_updated_at() returns trigger language plpgsql as $$begin new.updated_at=now();return new;end$$;
+create trigger project_updated before update on public.projects for each row execute function public.set_updated_at();
+-- All tables use RLS. Read-only public visibility. Admin writes require a role in owner_roles.
+alter table public.owner_roles enable row level security;
+alter table public.clients enable row level security;
+alter table public.projects enable row level security;
+alter table public.services enable row level security;
+alter table public.testimonials enable row level security;
+alter table public.journal_posts enable row level security;
+alter table public.site_settings enable row level security;
+alter table public.contact_submissions enable row level security;
+alter table public.contact_rate_limits enable row level security;
+create policy owners_view_roles on public.owner_roles for select to authenticated using(user_id=auth.uid());
+create policy public_clients on public.clients for select using(published or public.is_owner());
+create policy owner_clients on public.clients for all to authenticated using(public.is_owner()) with check(public.is_owner());
+create policy public_projects on public.projects for select using((status='published' and (published_at is null or published_at<=now())) or public.is_owner());
+create policy owner_projects on public.projects for all to authenticated using(public.is_owner()) with check(public.is_owner());
+create policy public_services on public.services for select using(published or public.is_owner());
+create policy owner_services on public.services for all to authenticated using(public.is_owner()) with check(public.is_owner());
+create policy public_testimonials on public.testimonials for select using(published or public.is_owner());
+create policy owner_testimonials on public.testimonials for all to authenticated using(public.is_owner()) with check(public.is_owner());
+create policy public_journal on public.journal_posts for select using((status='published' and (published_at is null or published_at<=now())) or public.is_owner());
+create policy owner_journal on public.journal_posts for all to authenticated using(public.is_owner()) with check(public.is_owner());
+create policy public_settings on public.site_settings for select using(true);
+create policy owner_settings on public.site_settings for all to authenticated using(public.is_owner()) with check(public.is_owner());
+create policy owner_inbox on public.contact_submissions for all to authenticated using(public.is_owner()) with check(public.is_owner());
+-- No anonymous direct INSERT to inbox. Server route validates, limits and writes through service role.
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('portfolio','portfolio',true,10485760,array['image/jpeg','image/png','image/webp','image/avif','video/mp4','application/pdf']) on conflict(id) do nothing;
+create policy portfolio_public_read on storage.objects for select using(bucket_id='portfolio');
+create policy portfolio_owner_upload on storage.objects for insert to authenticated with check(bucket_id='portfolio' and public.is_owner());
+create policy portfolio_owner_update on storage.objects for update to authenticated using(bucket_id='portfolio' and public.is_owner()) with check(bucket_id='portfolio' and public.is_owner());
+create policy portfolio_owner_delete on storage.objects for delete to authenticated using(bucket_id='portfolio' and public.is_owner());
+-- IMPORTANT: create a Supabase Auth account, then grant it owner privileges manually:
+-- insert into public.owner_roles(user_id) values('YOUR_AUTH_USER_UUID');

@@ -1,0 +1,16 @@
+import type {Project, Service} from './types';
+// Intentional editorial examples; NOT claimed as verified client engagements or imported Behance projects.
+const base={id:'',year:2026,role:'Concept & visual design',tools:['Adobe Photoshop','Adobe Illustrator'],duration:'Concept exploration',deliverables:['Visual concepts','Campaign artwork'],cover_image:null,gallery:[],body_blocks:[],challenge:'Develop a recognizable creative direction.',approach:'Explore a strong visual metaphor, clear hierarchy, and intentional composition.',solution:'Create a distinctive, flexible visual system.',results:'Concept study — no performance metrics claimed.',featured:true,sort_order:0,status:'published' as const,published_at:null,seo_title:null,seo_description:null,concept:true};
+export const demoProjects:Project[]=[
+ { ...base,id:'demo-1',slug:'borno-bazar-storytelling',title:'Borno Bazar — Beyond the Ordinary',summary:'Playful visual storytelling for a pickle brand.',category:'Social campaigns',tags:['FMCG','Art direction','Food'],client:'Borno Bazar',sort_order:1},
+ { ...base,id:'demo-2',slug:'yaqeen-sweets-identity',title:'Yaqeen Sweets — A Refined Identity',summary:'A black-and-gold identity direction shaped around timeless elegance.',category:'Brand identity',tags:['Identity','Luxury','Typography'],client:'Yaqeen Sweets',sort_order:2},
+ { ...base,id:'demo-3',slug:'nongor-food-campaign',title:'Nongor Food — The Taste of Memory',summary:'A fresh visual language for familiar Bangladeshi snacks.',category:'Social campaigns',tags:['Packaging','Food','Art direction'],client:'Nongor Food',sort_order:3},
+ { ...base,id:'demo-4',slug:'a-one-menu-design',title:'A One Food — Menu Reimagined',summary:'An expressive editorial menu designed for effortless browsing.',category:'Print & editorial',tags:['Menu','Food','Editorial'],client:'A One Food',sort_order:4},
+ { ...base,id:'demo-5',slug:'makeup-chari-beauty',title:'Makeup Chari — The Bloom of Hydration',summary:'A sculptural beauty direction balancing softness and impact.',category:'Art direction',tags:['Skincare','Beauty','CGI direction'],client:'Makeup Chari',sort_order:5},
+ { ...base,id:'demo-6',slug:'naviforce-campaign',title:'NAVIFORCE — A Moment of Momentum',summary:'A bold campaign concept bridging timepieces and motion.',category:'Campaign design',tags:['Watches','Advertising','Visual identity'],client:'NAVIFORCE',sort_order:6}
+];
+export const demoServices:Service[]=[
+ {id:'s1',title:'Brand & Visual Identity',slug:'brand-identity',description:'Thoughtful identities that express what a business stands for.',deliverables:['Creative direction','Logo system','Brand guidelines'],turnaround:'Scope-dependent',starting_price:null,sort_order:1,published:true},
+ {id:'s2',title:'Campaign & Social Design',slug:'campaign-design',description:'Scroll-stopping visuals built around a powerful idea.',deliverables:['Key visuals','Social systems','Ad adaptations'],turnaround:'Scope-dependent',starting_price:null,sort_order:2,published:true},
+ {id:'s3',title:'Packaging & Editorial',slug:'packaging-editorial',description:'Physical and digital experiences with memorable craft.',deliverables:['Packaging concepts','Print-ready artwork','Editorial layouts'],turnaround:'Scope-dependent',starting_price:null,sort_order:3,published:true}
+];
