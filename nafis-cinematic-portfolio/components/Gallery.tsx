@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
+import Image from 'next/image';
 import {ArrowLeft,ArrowRight,X,ZoomIn} from 'lucide-react';
 import type {Media} from '@/lib/types';
 
@@ -25,7 +26,7 @@ export function Gallery({media}:{media:Media[]}){
    {media.map((m,i)=>m.type==='video'?
     <figure className="gallery-tile" key={i}><video controls preload="metadata" playsInline style={{width:'100%',borderRadius:16}}><source src={m.url}/><track kind="captions" srcLang="en" label="English" src="/captions.vtt"/></video>{m.caption&&<figcaption>{m.caption}</figcaption>}</figure>:
     <button type="button" className="gallery-tile gallery-image" key={i} onClick={()=>setIndex(i)} aria-label={'Enlarge image '+(i+1)+': '+m.alt}>
-     <img src={m.url} alt={m.alt} loading="lazy" decoding="async" width={1200} height={900}/>
+     <Image src={m.url} alt={m.alt} loading="lazy" width={1200} height={900} quality={80} sizes="(max-width: 700px) 100vw, 50vw" unoptimized={m.url.startsWith('http')}/>
      <span className="gallery-zoom"><ZoomIn size={20}/> View larger</span>
     </button>
    )}

@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {ArrowUpRight} from 'lucide-react';
 import type {Project} from '@/lib/types';
 
 export function ProjectArt({p,index=0,className=''}:{p:Project;index?:number;className?:string}){
  const artwork=Boolean(p.cover_image);
  return <div className={'project-art variant-'+(index%4+1)+' '+(artwork?'has-cover ':'')+className} role={artwork?undefined:'img'} aria-label={artwork?undefined:'Editorial visual for '+p.title}>
-  {artwork?<><div className="project-cover-haze" style={{backgroundImage:'url("'+p.cover_image+'")'}} aria-hidden="true"/><img className="project-cover-image" src={p.cover_image||''} alt={'Artwork from '+p.title} width={1000} height={850} loading={index<2?'eager':'lazy'} decoding="async"/></>:<div className="art-label">{p.title.split('—')[0]}<br/><span style={{fontSize:'.35em',fontWeight:500,letterSpacing:'.1em'}}>VISUAL EXPLORATION</span></div>}
+  {artwork?<><div className="project-cover-haze" style={{backgroundImage:'url("'+p.cover_image+'")'}} aria-hidden="true"/><Image className="project-cover-image" src={p.cover_image||''} alt={'Artwork from '+p.title} width={1200} height={1000} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 58vw" quality={80} loading="lazy" unoptimized={Boolean(p.cover_image?.startsWith('http'))}/></>:<div className="art-label">{p.title.split('—')[0]}<br/><span style={{fontSize:'.35em',fontWeight:500,letterSpacing:'.1em'}}>VISUAL EXPLORATION</span></div>}
   {p.concept&&<span className="concept-pill">CONCEPT STUDY</span>}
  </div>;
 }
