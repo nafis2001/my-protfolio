@@ -1,5 +1,6 @@
 import type {Metadata,Viewport} from 'next';
 import './globals.css';
+import './artdirection.css';
 import {Header,Footer,ScrollProgress} from '@/components/SiteShell';
 import {siteUrl} from '@/lib/seo';
 
