@@ -1,4 +1,4 @@
-import {createServerClient} from '@supabase/ssr';
+import {createServerClient, type CookieOptions} from '@supabase/ssr';
 import {createClient} from '@supabase/supabase-js';
 import {cookies} from 'next/headers';
 const url=process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -7,7 +7,7 @@ export const configured=Boolean(url&&anon);
 export async function serverDb(){
  if(!url||!anon) return null;
  const jar=await cookies();
- return createServerClient(url,anon,{cookies:{getAll(){return jar.getAll()},setAll(values){try{values.forEach(({name,value,options})=>jar.set(name,value,options))}catch{ /* render-only cookie context */ }}}});
+ return createServerClient(url,anon,{cookies:{getAll(){return jar.getAll()},setAll(values: {name:string;value:string;options:CookieOptions}[]){try{values.forEach(({name,value,options})=>jar.set(name,value,options))}catch{ /* render-only cookie context */ }}}});
 }
 export function adminDb(){
  const key=process.env.SUPABASE_SERVICE_ROLE_KEY;
