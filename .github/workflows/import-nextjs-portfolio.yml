@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'nafis-cinematic-portfolio/source.tar.xz'
+      - 'nafis-cinematic-portfolio/READY'
   workflow_dispatch:
 permissions:
   contents: write
@@ -19,12 +19,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p nafis-cinematic-portfolio
-          tar -xJf nafis-cinematic-portfolio/source.tar.xz -C nafis-cinematic-portfolio --strip-components=1
+          cat nafis-cinematic-portfolio/.archive/part*.txt | base64 -d > /tmp/nafis-cinematic.tar.xz
+          tar -xJf /tmp/nafis-cinematic.tar.xz -C nafis-cinematic-portfolio --strip-components=1
+          rm -rf nafis-cinematic-portfolio/.archive nafis-cinematic-portfolio/READY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add nafis-cinematic-portfolio
+          git add -A nafis-cinematic-portfolio
           if ! git diff --cached --quiet; then
-            git commit -m "Add cinematic Next.js portfolio source"
+            git commit -m "Publish full cinematic Next.js portfolio source"
             git push
           fi
