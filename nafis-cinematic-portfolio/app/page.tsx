@@ -1,76 +1,88 @@
 import Link from 'next/link';
-import {ArrowUpRight, ArrowDownRight, ArrowRight, Sparkles} from 'lucide-react';
+import {ArrowDownRight,ArrowRight,ArrowUpRight} from 'lucide-react';
 import {projects,services} from '@/lib/data';
 import {ProjectCard} from '@/components/ProjectCard';
 import {BentoGrid} from '@/components/BentoGrid';
 import {getSettings} from '@/lib/settings';
 
+/** A creative director's index, not a portfolio template. */
 export default async function Home(){
  const [all,offerings,settings]=await Promise.all([projects(),services(),getSettings()]);
  const selected=all.filter(p=>p.featured).slice(0,6);
  return <>
-  <section className="hero hero-editorial" aria-labelledby="home-heading">
-   <div className="container">
-    <div className="hero-grid hero-editorial-grid">
-     <div className="hero-copy reveal">
-      <div className="hero-overline"><span className="eyebrow">NAFIS IBN MASUD / CREATIVE VISUALIZER</span><span className="hero-edition">PORTFOLIO / 2026</span></div>
-      <h1 id="home-heading" className="hero-statement">{settings.hero_title==='Curiosity, made visual.'?<>{'Curiosity,'}<br/><span>made visual.</span></>:settings.hero_title}</h1>
-      <p className="hero-desc">{settings.hero_description}</p>
-      <div className="hero-buttons">
-       <Link className="btn primary" href="/work">Explore my work <ArrowUpRight size={18}/></Link>
-       <Link className="btn" href="/contact">Start a conversation <ArrowUpRight size={17}/></Link>
-      </div>
-      <div className="hero-proof">
-       <span><strong>{String(all.length).padStart(2,'0')}</strong><small>Selected projects</small></span>
-       <span><strong>BD <span aria-hidden="true">↗</span></strong><small>Based in Dhaka / working remotely</small></span>
-      </div>
-     </div>
-     <div className="hero-visual">
-      <div className="hero-visual-orbit" aria-hidden="true"/>
-      <figure className="portrait-frame hero-portrait">
-       <img src="/portfolio/nafis-portrait.jpg" alt="Portrait of Nafis Ibn Masud with cinematic blue studio lighting" width={920} height={920} fetchPriority="high" decoding="async"/>
-       <figcaption className="portrait-overlay"><span>THE PERSON BEHIND THE PIXELS</span><strong>NAFIS <i>↗</i></strong></figcaption>
-      </figure>
-      <div className="hero-stamp" aria-hidden="true">VISUAL<br/>STORIES <Sparkles size={16}/></div>
-     </div>
+  <section className="nm-hero" aria-labelledby="home-heading">
+   <div className="container nm-hero-container">
+    <div className="nm-hero-dateline">
+     <span>NAFIS IBN MASUD <b>／</b> INDEPENDENT CREATIVE PRACTICE</span>
+     <span>BASED IN DHAKA, BD <i aria-hidden="true">✳</i> WORKING EVERYWHERE</span>
     </div>
-    <div className="hero-bottom"><span>Independent by nature. Creative by design.</span><a href="#selected-work">Scroll to explore <ArrowDownRight size={15}/></a></div>
+    <div className="nm-hero-stage">
+     <div className="nm-hero-type">
+      <span className="nm-coordinate">001 — IDEAS, ART DIRECTION & VISUAL WORLDS</span>
+      <h1 id="home-heading"><span>MADE</span><span>YOU <em>LOOK.</em></span></h1>
+      <div className="nm-hero-intro">
+       <span className="nm-asterisk" aria-hidden="true">✳</span>
+       <div><strong>HI, I'M NAFIS.</strong><p>{settings.hero_description}</p></div>
+      </div>
+     </div>
+     <figure className="nm-portrait">
+      <img src="/portfolio/nafis-portrait.jpg" width={920} height={920} alt="Nafis Ibn Masud, creative visualizer photographed in cool cinematic blue lighting" fetchPriority="high" decoding="async"/>
+      <figcaption><span>THE PERSON BEHIND THE PIXELS</span><b>N / M</b></figcaption>
+      <span className="nm-portrait-cross" aria-hidden="true">+</span>
+     </figure>
+     <span className="nm-hero-vertical" aria-hidden="true">A PRACTICE IN NOTICING THINGS</span>
+    </div>
+    <div className="nm-hero-foot">
+     <p>GOOD WORK ISN'T JUST SEEN. IT STAYS WITH YOU.</p>
+     <a href="#selected-work">SCROLL TO SEE THE WORK <ArrowDownRight size={19}/></a>
+    </div>
    </div>
   </section>
 
-  <div className="expertise-strip" aria-label="Creative disciplines">
-   <div className="container expertise-inner"><span>ART DIRECTION</span><i aria-hidden="true">✳</i><span>BRAND IDENTITY</span><i aria-hidden="true">✳</i><span>CAMPAIGN DESIGN</span><i aria-hidden="true">✳</i><span>MOTION & VIDEO</span></div>
-  </div>
-
-  <section className="section container selected-section" id="selected-work">
-   <div className="section-heading"><div><span className="eyebrow">01 / THE SELECTED ARCHIVE</span><h2>Work that<br/><em>speaks.</em></h2><p className="section-lead">A collection of actual visuals from campaigns, identities, packaging and editorial explorations.</p></div><Link className="text-link" href="/work">View all projects <ArrowUpRight size={20}/></Link></div>
-   {selected.length>0?<BentoGrid className="featured-grid">{selected.map((p,i)=><ProjectCard key={p.id} p={p} index={i}/>)}</BentoGrid>:<div className="panel"><p>More selected projects are being curated. In the meantime, explore my design work on Behance.</p><a className="btn primary" href="https://www.behance.net/nafis24" target="_blank" rel="noopener noreferrer">View Behance <ArrowUpRight size={17}/></a></div>}
-   <div className="section-bottom-link"><Link className="btn" href="/work">See the entire portfolio <ArrowRight size={17}/></Link></div>
+  <section className="nm-selected-section" id="selected-work" aria-labelledby="selected-heading">
+   <div className="container">
+    <div className="nm-section-index"><span>01 / SELECTED WORK</span><span>CURATED, NOT EVERYTHING</span></div>
+    <div className="nm-selected-heading">
+     <h2 id="selected-heading">A FEW THINGS<br/><em>I'VE MADE.</em></h2>
+     <div><p>Different briefs. Different mediums. Same obsession with finding the idea worth looking at.</p><Link href="/work" className="nm-underline-link">ALL PROJECTS <ArrowUpRight size={18}/></Link></div>
+    </div>
+    {selected.length?
+      <BentoGrid className="featured-grid nm-featured-work">{selected.map((p,i)=><ProjectCard p={p} index={i} key={p.id}/>)}</BentoGrid>
+      :<div className="nm-archive-empty"><p>The portfolio is being curated.</p><a href="https://www.behance.net/nafis24" target="_blank" rel="noopener noreferrer">Explore my Behance <ArrowUpRight size={17}/></a></div>}
+    <Link href="/work" className="nm-see-all"><span>THE REST OF THE ARCHIVE</span><strong>EXPLORE MORE WORK</strong><ArrowUpRight size={30}/></Link>
+   </div>
   </section>
 
-  <section className="section services-feature">
-   <div className="container">
-    <div className="section-heading"><div><span className="eyebrow">02 / WHAT I BRING TO THE TABLE</span><h2>Creative thinking.<br/><em>Considered craft.</em></h2></div><p className="section-lead">From the first “what if?” to the final detail. The medium changes; the curiosity stays.</p></div>
-    <div className="services-editorial">
-     {offerings.slice(0,4).map((s,i)=><Link className="service-editorial-card" href="/services" key={s.id}>
-      <span className="service-index">0{i+1} / DISCIPLINE</span><span className="service-arrow" aria-hidden="true"><ArrowUpRight size={23}/></span>
-      <h3>{s.title}</h3><p>{s.description}</p>
-      <span className="service-discover">Explore the approach <ArrowRight size={16}/></span>
+  <section className="nm-manifesto" aria-label="My approach">
+   <div className="container nm-manifesto-inner">
+    <span className="nm-manifesto-id">BETWEEN WHAT EXISTS AND WHAT COULD.</span>
+    <p>I DON'T JUST LIKE<br/>MAKING THINGS <em>LOOK GOOD.</em><br/>I LIKE MAKING THEM <span>MEAN SOMETHING.</span></p>
+    <span className="nm-manifesto-mark" aria-hidden="true">✳</span>
+   </div>
+  </section>
+
+  <section className="container nm-practice" aria-labelledby="practice-heading">
+   <div className="nm-section-index"><span>02 / THE PRACTICE</span><span>WHAT I LOVE MAKING</span></div>
+   <div className="nm-practice-layout">
+    <div className="nm-practice-intro"><h2 id="practice-heading">ONE MIND.<br/><em>MORE THAN<br/>ONE MEDIUM.</em></h2><p>Some stories need a single frame. Others need a whole identity or a little movement.</p></div>
+    <div className="nm-discipline-list">
+     {offerings.slice(0,4).map((s,i)=><Link href="/services" className="nm-discipline" key={s.id}>
+      <span>{String(i+1).padStart(2,'0')}</span><div><h3>{s.title}</h3><p>{s.description}</p></div><ArrowUpRight size={25} aria-hidden="true"/>
      </Link>)}
     </div>
    </div>
   </section>
 
-  <section className="section container about-feature">
-   <div className="about-feature-grid">
-    <div className="about-feature-graphic" aria-hidden="true"><span className="big-asterisk">✳</span><span className="about-graphic-caption">THINK. MAKE.<br/>FEEL. REPEAT.</span></div>
-    <div className="about-feature-copy"><span className="eyebrow">03 / A BIT ABOUT ME</span><h2>More human.<br/><em>Less ordinary.</em></h2><p>I'm Nafis. I like ideas that make you look twice, visuals that feel intentional, and the tiny details most people never notice—until they do.</p><p>My work moves between brand identity, advertising, packaging, social design and motion. Different canvases, one belief: good design should mean something.</p><Link className="btn" href="/about">Meet the designer <ArrowUpRight size={17}/></Link></div>
+  <section className="nm-note-section">
+   <div className="container nm-note">
+    <div className="nm-note-art" aria-hidden="true"><span>N</span><span className="nm-note-diagonal">/</span><span>M</span><small>A SMALL STUDIO INSIDE ONE HEAD.</small></div>
+    <div className="nm-note-copy"><span className="nm-kicker">03 / THE HUMAN PART</span><h2>CURIOUS<br/>BY DEFAULT<span>.</span></h2><p>I'm a designer in Dhaka who believes the best ideas usually begin with a question. I work across identity, advertising, packaging and motion — and I'm still excited by the little things that make a picture feel right.</p><Link href="/about" className="nm-underline-link">MORE ABOUT ME <ArrowUpRight size={18}/></Link></div>
    </div>
   </section>
 
-  <section className="section container short-contact">
-   <div><span className="eyebrow">04 / YOUR TURN</span><h2>Something on<br/><em>your mind?</em></h2></div>
-   <div><p>Big brief, small idea, or an interesting “what if?”—I'd love to hear it.</p><Link href="/contact" className="btn primary">Tell me about it <ArrowUpRight size={18}/></Link></div>
+  <section className="container nm-last-word">
+   <span>GOT AN IDEA YOU CAN'T STOP THINKING ABOUT?</span>
+   <Link href="/contact">LET'S SEE<br/><em>WHAT IT COULD BE.</em> <ArrowRight aria-hidden="true"/></Link>
   </section>
  </>;
 }
