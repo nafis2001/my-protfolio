@@ -12,9 +12,17 @@ export function ProjectArt({p,index=0,className=''}:{p:Project;index?:number;cla
 }
 export function ProjectCard({p,index}:{p:Project;index:number}){
  return <article className="project-card">
-  <Link href={'/work/'+p.slug} aria-label={'Open '+p.title+' project'}>
-   <div className="project-image-wrap"><ProjectArt p={p} index={index}/><span className="project-visit" aria-hidden="true"><ArrowUpRight size={23}/></span></div>
-   <div className="project-info"><div className="project-info-top"><span>{String(index+1).padStart(2,'0')} / {p.category}</span><span>{p.year}</span></div><h3>{p.title}</h3><p>{p.summary}</p><span className="project-card-link">View project <ArrowUpRight size={15}/></span></div>
+  <Link href={'/work/'+p.slug} aria-label={'View '+p.title+' project'}>
+   <div className="project-image-wrap">
+    <ProjectArt p={p} index={index}/>
+    <span className="project-visual-index" aria-hidden="true">{String(index+1).padStart(2,'0')}</span>
+    <span className="project-visit" aria-hidden="true"><ArrowUpRight size={23}/></span>
+   </div>
+   <div className="project-info">
+    <div className="project-info-top"><span>{p.category}</span><span>{p.year}</span></div>
+    <div className="project-title-line"><h3>{p.title}</h3><ArrowUpRight size={21} aria-hidden="true"/></div>
+    <p>{p.summary}</p>
+   </div>
   </Link>
  </article>;
 }
