@@ -2,6 +2,7 @@
 import {useEffect,useMemo,useState} from 'react';
 import {ArrowDownUp,Search,X} from 'lucide-react';
 import {ProjectCard} from './ProjectCard';
+import {BentoGrid} from './BentoGrid';
 import type {Project} from '@/lib/types';
 
 type Filters={category:string;query:string;sort:string;view:string};
@@ -39,7 +40,7 @@ export function WorkExplorer({items}:{items:Project[]}){
   </div>
   <div className="work-categories"><button type="button" className={!category?'active':''} aria-pressed={!category} onClick={()=>update('category','')}>All work <span>{items.length}</span></button>{categories.map(c=>{const n=items.filter(p=>p.category===c).length;return <button type="button" key={c} className={category===c?'active':''} aria-pressed={category===c} onClick={()=>update('category',category===c?'':c)}>{c} <span>{n}</span></button>})}</div>
   <div className="work-result-label" aria-live="polite"><span>{filtered.length} project{filtered.length===1?'':'s'} in view</span><span>SCROLL TO EXPLORE ↓</span></div>
-  {filtered.length?<div className={'grid12 work-cards '+(view==='list'?'work-list':'')}>{filtered.slice(0,visible).map((p,i)=><ProjectCard key={p.id} p={p} index={i}/>)}</div>:<div className="panel empty-state"><h3>Nothing in this frame.</h3><p>Try another keyword or explore the whole archive.</p><button className="btn primary" type="button" onClick={reset}>Clear filters</button></div>}
+  {filtered.length?(view==='list'?<div className="grid12 work-cards work-list">{filtered.slice(0,visible).map((p,i)=><ProjectCard key={p.id} p={p} index={i}/>)}</div>:<BentoGrid key={filtered.slice(0,visible).map(p=>p.id).join('|')} className="work-cards">{filtered.slice(0,visible).map((p,i)=><ProjectCard key={p.id} p={p} index={i}/>)}</BentoGrid>):<div className="panel empty-state"><h3>Nothing in this frame.</h3><p>Try another keyword or explore the whole archive.</p><button className="btn primary" type="button" onClick={reset}>Clear filters</button></div>}
   {filtered.length>visible&&<div className="load-more"><button className="btn" type="button" onClick={()=>setVisible(v=>v+8)}>Load more projects ↓</button></div>}
  </>;
 }
