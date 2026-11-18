@@ -2,6 +2,7 @@ import Link from 'next/link';
 import {ArrowUpRight, ArrowDownRight, ArrowRight, Sparkles} from 'lucide-react';
 import {projects,services} from '@/lib/data';
 import {ProjectCard} from '@/components/ProjectCard';
+import {BentoGrid} from '@/components/BentoGrid';
 import {getSettings} from '@/lib/settings';
 
 export default async function Home(){
@@ -43,7 +44,7 @@ export default async function Home(){
 
   <section className="section container selected-section" id="selected-work">
    <div className="section-heading"><div><span className="eyebrow">01 / THE SELECTED ARCHIVE</span><h2>Work that<br/><em>speaks.</em></h2><p className="section-lead">A collection of actual visuals from campaigns, identities, packaging and editorial explorations.</p></div><Link className="text-link" href="/work">View all projects <ArrowUpRight size={20}/></Link></div>
-   {selected.length>0?<div className="grid12 featured-grid">{selected.map((p,i)=><ProjectCard key={p.id} p={p} index={i}/>)}</div>:<div className="panel"><p>More selected projects are being curated. In the meantime, explore my design work on Behance.</p><a className="btn primary" href="https://www.behance.net/nafis24" target="_blank" rel="noopener noreferrer">View Behance <ArrowUpRight size={17}/></a></div>}
+   {selected.length>0?<BentoGrid className="featured-grid">{selected.map((p,i)=><ProjectCard key={p.id} p={p} index={i}/>)}</BentoGrid>:<div className="panel"><p>More selected projects are being curated. In the meantime, explore my design work on Behance.</p><a className="btn primary" href="https://www.behance.net/nafis24" target="_blank" rel="noopener noreferrer">View Behance <ArrowUpRight size={17}/></a></div>}
    <div className="section-bottom-link"><Link className="btn" href="/work">See the entire portfolio <ArrowRight size={17}/></Link></div>
   </section>
 
