@@ -1,4 +1,16 @@
+import Link from 'next/link';
+import {ArrowUpRight} from 'lucide-react';
 import {metadata as makeMetadata} from '@/lib/seo';
-export const metadata:import('next').Metadata=makeMetadata('Process','Explore the creative process behind Nafis Ibn Masud’s design projects.','/process');
-const steps=[['Discover','Understand the brand, the audience and the challenge.'],['Explore','Research directions and sketch possible visual worlds.'],['Design','Build, critique and refine the most promising concept.'],['Collaborate','Review together and incorporate agreed revisions.'],['Deliver','Prepare organized assets for real-world use.']];
-export default function Process(){return <div className="container section"><div className="page-intro"><span className="eyebrow">How I work</span><h1>Method to the <span style={{color:'var(--accent)'}}>magic.</span></h1><p>A transparent process that keeps creativity ambitious and collaboration simple.</p></div>{steps.map(([title,body],i)=><div className="detail-section" style={{borderTop:'1px solid var(--line)',paddingTop:40}} key={title}><div><span className="eyebrow">Step 0{i+1}</span><h2>{title}</h2></div><p>{body}</p></div>)}</div>}
+export const metadata:import('next').Metadata=makeMetadata('Creative Process','A thoughtful creative process for design, branding and visual storytelling projects.','/process');
+const steps=[
+ ['Listen & discover','We get clear on your goals, audience, deliverables and what really needs to be communicated.'],
+ ['Research & explore','I look for visual opportunities, test ideas and build a direction that feels right for your brand.'],
+ ['Create & refine','We develop the strongest direction through typography, composition, imagery and considered details.'],
+ ['Review together','You review the proposed work and we refine it with feedback tied to the agreed scope.'],
+ ['Prepare & deliver','Final assets are organized for the platforms, formats and practical needs of the project.']
+];
+export default function Process(){return <div className="container section process-page">
+ <div className="page-intro"><span className="eyebrow">THE METHOD BEHIND THE WORK</span><h1>Curiosity with<br/><em>a process.</em></h1><p>Good design takes a little exploration and a lot of attention. Here’s how I prefer to move from the first conversation to the final file.</p></div>
+ <div className="process-timeline">{steps.map(([title,body],i)=><div className="process-step" key={title}><span className="process-step-num">{String(i+1).padStart(2,'0')}</span><h2>{title}</h2><p>{body}</p></div>)}</div>
+ <div className="process-next"><div><span className="eyebrow">EVERY COLLABORATION IS DIFFERENT</span><h2>Let's find a way<br/><em>to work together.</em></h2></div><Link className="btn primary" href="/contact">Start a project <ArrowUpRight size={17}/></Link></div>
+ </div>}
