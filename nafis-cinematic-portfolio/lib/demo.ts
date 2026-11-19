@@ -12,7 +12,20 @@ const localAssetMap:Record<string,string>={
  'naviforce-mnemonic.png':'naviforce-mnemonic.png',
  'yaqeen-packaging-family.png':'yaqeen-packaging.jpg'
 };
-const asset=(name:string)=>'/portfolio/'+(localAssetMap[name]||name);
+// Oversized original exports are served directly from the public GitHub repository.
+// This keeps the complete artwork visible without hitting Vercel's file upload limit.
+const originalSizeExports=new Set([
+ 'bikkhato-label-graphic.png','bikkhato-mockup.png','borno-bazar-main.png',
+ 'borno-bazar-story-02.png','borno-bazar-story-03.png','makeup-chari-summer.png',
+ 'nongor-campaign-02.png','nongor-campaign-03.png','nongor-campaign-main.png'
+]);
+const asset=(name:string)=>{
+ const file=localAssetMap[name]||name;
+ const base='/portfolio/'+file;
+ return originalSizeExports.has(file)
+  ?'https://raw.githubusercontent.com/nafis2001/my-protfolio/main/nafis-cinematic-portfolio/public/portfolio/'+file
+  :base;
+};
 const media=(name:string,alt:string):Media=>({url:asset(name),alt,type:'image'});
 
 const base={
